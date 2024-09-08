@@ -1,2 +1,2 @@
 # Bussiness-Calendar-App
-work managment tool for advanced scheduling options
+work managment tool with advanced scheduling options
