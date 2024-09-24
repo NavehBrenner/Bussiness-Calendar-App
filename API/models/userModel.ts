@@ -1,14 +1,6 @@
 import { Document, model, Model, Schema } from 'mongoose';
 import { IPresonalCalendar, PersonalCalendar } from './calendarModel';
-
-interface IUser extends Document {
-  name: string;
-  email: string;
-  password: string;
-  profilePhoto: String;
-  personalCalendar: Model<IPresonalCalendar>;
-  calendars: []; // calendar id's
-}
+import { IUser } from '../interfaces/IProfiles';
 
 const userSchema: Schema<IUser> = new Schema<IUser>({
   name: {
@@ -31,11 +23,6 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
   profilePhoto: {
     type: String,
     required: false,
-  },
-
-  personalCalendar: {
-    type: Model<IPresonalCalendar>,
-    default: {},
   },
 });
 
