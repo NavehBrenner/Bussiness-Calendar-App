@@ -1,5 +1,4 @@
 import { Document, model, Model, Schema } from 'mongoose';
-import { IPresonalCalendar, PersonalCalendar } from './calendarModel';
 import { IUser } from '../interfaces/IProfiles';
 
 const userSchema: Schema<IUser> = new Schema<IUser>({
@@ -20,7 +19,7 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
     trim: true,
   },
 
-  profilePhoto: {
+  coverImgPath: {
     type: String,
     required: false,
   },
