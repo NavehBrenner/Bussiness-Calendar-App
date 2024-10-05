@@ -34,4 +34,10 @@ interface IUser extends Document, IProfileCard, IPassword {
   systemRole: string;
 }
 
-export { IIdentifiers, IFacility, IUser, IProfileCard };
+interface IUserMethods {
+  correctPassword(candPass: string, userPass: string): boolean;
+  changedPasswordAfter(tokenTimestamp: number): boolean;
+  createPasswordResetToken(): string;
+}
+
+export { IIdentifiers, IFacility, IUser, IProfileCard, IUserMethods };

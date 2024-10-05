@@ -2,7 +2,10 @@ class AppError extends Error {
   statusCode?: number;
   status?: string;
   isOperational?: boolean;
-  constructor(message: string, statusCode: number) {
+  constructor(
+    message: string = 'Something went wrong',
+    statusCode: number = 400
+  ) {
     super(message);
     this.statusCode = statusCode;
     // mark if error was cause because of failed request or other erorr
