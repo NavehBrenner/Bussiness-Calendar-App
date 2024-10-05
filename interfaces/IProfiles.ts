@@ -31,6 +31,7 @@ interface IUser extends Document, IProfileCard, IPassword {
   calendars: ObjectId[];
   tasks: ObjectId[];
   events: ObjectId[];
+  systemRole: string;
 }
 
 export { IIdentifiers, IFacility, IUser, IProfileCard };
