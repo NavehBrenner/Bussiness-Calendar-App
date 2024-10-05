@@ -145,4 +145,4 @@ userSchema.pre('save', function (next) {
 
 const User = model<IUser, UserModel>('User', userSchema);
 
-export { IUser, User };
+export { User };

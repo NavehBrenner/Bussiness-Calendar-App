@@ -1,6 +1,7 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
-import { IUser, User } from '../models/userModel';
+import { IUser } from '../interfaces/IProfiles';
+import { User } from '../models/userModel';
 import catchAsync from '../utils/catchAsync';
 import AppError from '../utils/appError';
 import sendEmail from '../utils/email';
