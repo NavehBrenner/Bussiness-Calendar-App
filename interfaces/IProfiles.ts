@@ -23,6 +23,7 @@ interface IPassword {
   passwordChangedAt?: Date;
   passwordResetToken?: string;
   passwordResetExpires?: Date;
+  adminPassword?: string;
 }
 
 interface IUser extends Document, IProfileCard, IPassword {

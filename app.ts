@@ -36,7 +36,7 @@ app.use(hpp()); // prevent parameter polution in queries
 
 // ==============GLOBAL MIDDLEWARE END================
 // ROUTERS
-app.use('/api/v1/users', userRouter);
+app.use('/api/v1-dev/users', userRouter);
 
 // define a default route for all request for routs that do not exist in server
 app.all('*', (req: Request, res: Response, next: NextFunction) => {

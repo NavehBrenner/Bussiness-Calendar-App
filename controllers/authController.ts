@@ -46,11 +46,8 @@ const signUp = catchAsync(
       email: req.body.email,
       password: req.body.password,
       passwordConfirm: req.body.passwordConfirm,
-      // only allow premissioned users to create new admins
-      role:
-        process.env.ADMIN_PASSWORD === req.body.adminPassword
-          ? req.body.role
-          : 'user',
+      systemRole: req.body.systemRole,
+      adminPassword: req.body.adminPassword,
     });
 
     sendLoginToken(res, newUser, 201);

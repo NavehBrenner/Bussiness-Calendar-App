@@ -11,6 +11,7 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>(
     name: {
       type: String,
       required: [true, 'Users must have a username'],
+      minlength: 3,
       trim: true,
     },
     about: {
@@ -28,7 +29,18 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>(
       type: String,
       required: [true, 'Users must have a password'],
       trim: true,
-      validate: validator.isStrongPassword,
+      validate: {
+        validator: (value: string) =>
+          validator.isStrongPassword(value, {
+            minLength: 8,
+            minLowercase: 1,
+            minNumbers: 1,
+            minUppercase: 0,
+            minSymbols: 0,
+          }),
+        message:
+          'Password must be at least 8 characters long, and have at least 1 lowercase letter and 1 number',
+      },
       select: false,
     },
     passwordConfirm: {
@@ -77,10 +89,20 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>(
         ref: 'Event',
       },
     ],
+    adminPassword: String,
     systemRole: {
       type: String,
       enum: ['admin', 'user'],
       default: 'user',
+      validate: {
+        validator: function (this: IUser, systemRole: string) {
+          return (
+            systemRole !== 'admin' ||
+            this.adminPassword === process.env.ADMIN_PASSWORD
+          );
+        },
+        message: 'Premission denied to create admin user',
+      },
     },
     active: {
       type: Boolean,
@@ -132,6 +154,7 @@ userSchema.pre('save', async function (next) {
   // encrypt password with cost 14
   this.password = await bcrypt.hash(this.password, 14);
   this.passwordConfirm = undefined;
+  this.adminPassword = undefined;
   next();
 });
 
