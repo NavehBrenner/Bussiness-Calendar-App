@@ -8,6 +8,7 @@ import {
   getById,
   updateById,
 } from '../utils/handlerFactory';
+import AppError from '../utils/appError';
 
 // filter object to only inclued fields specified in the ...fields param
 const filterObj = (obj: Record<string, any>, ...fields: string[]) => {
@@ -38,8 +39,8 @@ const updateMe = catchAsync(
       );
     }
 
-    // filer the body to only inclued name and email (these are the only fields users should be allowd o change)
-    const filteredBody = filterObj(req.body, 'name', 'email');
+    // filer the body to only inclued name and email (these are the only fields users should be allowed to change)
+    const filteredBody = filterObj(req.body, 'name', 'about', 'coverImgPath');
 
     // update the user
     const updatedUser = await User.findByIdAndUpdate(

@@ -22,7 +22,7 @@ const sendLoginToken = (res: Response, user: IUser, statusCode: number) => {
       // set cookie to expire after time specified time in .env file (in minuets)
       Date.now() + +process.env.JWT_COOKIE_EXPIRES! * 60 * 1000
     ),
-    secure: process.env.NODE_ENV === 'production' ? true : false,
+    secure: process.env.NODE_ENV === 'development' ? false : true,
     httpOnly: true,
   };
 
@@ -75,14 +75,7 @@ const login = catchAsync(
 
 const protect = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    let token;
-    // check for auth header and correct auth method (bearer token) if exist extract token
-    if (
-      req.headers.authorization &&
-      req.headers.authorization.startsWith('Bearer')
-    ) {
-      token = req.headers.authorization.split(' ')[1];
-    }
+    const token = req.cookies.jwt;
 
     if (!token)
       return next(
@@ -115,17 +108,14 @@ const protect = catchAsync(
 );
 
 // restrict route for SYSTEM admins, has nothing to do with roles and premissions within groups and calendars
-const systemRestriction = catchAsync(
-  (req: Request, res: Response, next: NextFunction) => {
-    // Check if user is an admin
-    if (req.user?.systemRole !== 'admin') {
-      return next(
-        new AppError('You do not have permission to preform this action', 403)
-      );
-    }
-    next();
-  }
-);
+const systemRestriction = (req: Request, res: Response, next: NextFunction) => {
+  // check if logged user is admin
+  if (req.user.systemRole !== 'admin')
+    return next(new AppError('You do not have premission to do that!', 403));
+
+  // grant access to route
+  next();
+};
 
 const forgotPassword = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -220,7 +210,7 @@ const updatePassword = catchAsync(
       return next(new AppError('This user does no longer exists', 404));
 
     const authenticated = user.correctPassword(
-      req.body.passwordCurrent || '',
+      req.body.currentPassword || '',
       user.password
     );
 

@@ -140,6 +140,9 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>(
   }
 );
 
+// add index to mails to allow quick lookup for users using their mail, allowing groups and calendars members list be a list of mails rather than user document id's
+userSchema.index({ email: 1 }, { unique: true });
+
 // filter from query all inactive users
 userSchema.pre(/^find/, function (this: Model<IUser>, next) {
   this.find({ active: { $ne: false } });

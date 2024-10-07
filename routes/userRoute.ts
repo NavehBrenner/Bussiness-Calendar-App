@@ -36,10 +36,11 @@ userRouter.route('/updateMyPassword').patch(updatePassword);
 userRouter.use(systemRestriction); // from now on only system admins are allowd to access routs
 
 userRouter.route('/').get(getAllUsers);
+
 userRouter
   .route('/:id')
-  .post(createUser)
   .get(getUserById)
+  .post(createUser)
   .patch(updateUserById)
   .delete(deleteUserById);
 

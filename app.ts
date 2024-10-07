@@ -8,6 +8,7 @@ import helmet, { xssFilter } from 'helmet';
 import mongoSanitize from 'express-mongo-sanitize';
 import rateLimit from 'express-rate-limit';
 import hpp from 'hpp';
+import cookieParser from 'cookie-parser';
 
 config();
 
@@ -15,6 +16,7 @@ const app = express();
 
 // ==============GLOBAL MIDDLEWARE=============
 app.use(express.json());
+app.use(cookieParser()); // User cookie parser middleware to allow authentication via cookies
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 
 // SECURITY AND DATA SANITIZATION
